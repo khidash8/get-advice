@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [advice, setAdvice] = useState(
@@ -19,15 +19,27 @@ function App() {
     setCount((prev) => prev + 1);
   };
 
+  //? set starting Advice
+  useEffect(() => {
+    getAdvise();
+  }, []);
+
+  //? JSX
   return (
     <div>
       <h1>{advice}</h1>
       <button onClick={getAdvise}>Click Me</button>
-      <p>
-        You've Read <strong>{count}</strong> of Advices today!!
-      </p>
+      <Message count={count} />
     </div>
   );
 }
+
+const Message = ({ count }) => {
+  return (
+    <p>
+      You've Read <strong>{count}</strong> of Advices today!!
+    </p>
+  );
+};
 
 export default App;
