@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [advice, setAdvice] = useState(
+    "Click the button to get Today's Advice"
+  );
+
+  const [count, setCount] = useState(0);
+
+  const getAdvise = async () => {
+    const randNum = Math.floor(Math.random() * 200 + 1);
+    const res = await fetch(`https://api.adviceslip.com/advice/${randNum}`);
+    const data = await res.json();
+
+    //? Set new ADVICE
+    setAdvice(data.slip.advice);
+
+    //?
+    setCount((prev) => prev + 1);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>{advice}</h1>
+      <button onClick={getAdvise}>Click Me</button>
+      <p>
+        You've Read <strong>{count}</strong> of Advices today!!
+      </p>
     </div>
   );
 }
